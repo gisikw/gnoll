@@ -1,0 +1,36 @@
+= Gnoll
+
+An alternative to the Rails #try method.
+
+== ALPHA ALPHA ALPHA Disclaimer
+
+This library is alpha. Very alpha. It should not be used in production. It should not be used as an example of "clean code" or "best practices". It is under heavy development, and may change, be refactored, be completely removed, at a moment's notice. The author disavows any responsibility if your code breaks via its use. Be very certain you know what you're doing if you look at this code - it is, to repeat, alpha.
+
+== Usage
+The Rails #try method attempts to avoid method chain dependencies that result in errors, by instead supplying a nil value. Take the following example:
+
+  @user.company.ceo.name
+
+If, say, the @user object doesn't have an associated company, many errors ensue. With pure Ruby, it can be avoided by writing the following:
+
+  @user.company.ceo.name rescue nil
+
+To use the Rails #try method to catch these errors, one must chain calls together like so:
+
+  @user.try(:company).try(:ceo).try(:name)
+
+With Gnoll, the same behavior can be achieved using the following technique:
+
+  @user.nil!.company.ceo.name
+
+Gnoll also provides error reporting, to allow for inspection of precisely where the error lies:
+
+  @user.nil!.company.ceo.name._errors
+    # NoMethodError: Undefined method 'ceo' for nil:NilClass
+    #         (irb):13:in `irb_binding'
+    #         Subsequent calls:
+    #         :name
+
+== Copyright
+
+Copyright (c) 2012 Kevin W. Gisi. See MIT-LICENSE for details.
