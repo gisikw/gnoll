@@ -13,7 +13,7 @@ module Gnoll
     end
 
     def disable_reporting!
-      @reporting_disabled = true
+      @reporting_enabled = false
     end
 
   end
